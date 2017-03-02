@@ -2,7 +2,6 @@ package com.joyous.distribution.service.impl;
 
 import com.joyous.common.entity.member.HlhUserEntity;
 import com.joyous.distribution.service.HlhUserService;
-import com.joyous.persistence.mybatis.mapper.HlhUserEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
