@@ -30,7 +30,7 @@
 			<modules>
 				<module>hlh-common-dto</module>
 				<module>hlh-persistence</module>
-				<module>hlh-salesman</module>
+				<module>hlh-distribution</module>
 			</modules>
 		</profile>
 		<profile>
@@ -48,7 +48,7 @@
 			<modules>
 				<module>hlh-common-dto</module>
 				<module>hlh-persistence</module>
-				<module>hlh-salesman</module>
+				<module>hlh-distribution</module>
 				<module>hlh-member</module>
 			</modules>
 			<activation>

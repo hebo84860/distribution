@@ -17,7 +17,7 @@
             http://www.springframework.org/schema/mvc 
 			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-	<context:component-scan base-package="com.yeapoo.statistics"
+	<context:component-scan base-package="com.joyous.distribution"
 		use-default-filters="false">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
@@ -66,7 +66,7 @@
 
 	<mvc:resources mapping="/static/**" location="/static/"/>
 
-	<bean id="propertyConfigurer2" class="com.yeapoo.statistics.util.PropertyConfigurer">
+	<bean id="propertyConfigurer2" class="PropertyConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="ignoreResourceNotFound" value="true"/>
 		<property name="locations">
@@ -89,7 +89,7 @@
 			<mvc:exclude-mapping path="/main/login"/>
 			<mvc:exclude-mapping path="/user/toAdd"/>
 			<mvc:exclude-mapping path="/user/addOrUpdate"/>
-			<bean class="com.yeapoo.statistics.intercept.LoginInterceptor">
+			<bean class="LoginInterceptor">
 				<property name="loginUrl" value="../main/login"/>
 			</bean>
 		</mvc:interceptor>

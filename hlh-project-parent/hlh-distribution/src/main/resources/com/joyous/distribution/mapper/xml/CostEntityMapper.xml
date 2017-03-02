@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CostEntityMapper" >
+  <resultMap id="BaseResultMap" type="CostEntity" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="cost_detail" property="costDetail" jdbcType="VARCHAR" typeHandler="CostDetailHandler"/>
+    <result column="cost_budget" property="costBudget" jdbcType="DECIMAL" />
+    <result column="cost_amount" property="costAmount" jdbcType="DECIMAL" />
+    <result column="cost_user_id" property="costUserId" jdbcType="VARCHAR" />
+    <result column="cost_user_name" property="costUserName" jdbcType="VARCHAR" />
+    <result column="cost_phone" property="costPhone" jdbcType="VARCHAR" />
+    <result column="cost_time" property="costTime" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="cost_type" property="costType" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cost_detail,cost_budget, cost_amount, cost_user_id, cost_user_name,cost_phone, cost_time, description,
+    status, cost_type, reason, create_time, create_by, update_time, update_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from cost
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from cost
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <!-- 插入消费记录 -->
+  <insert id="insert" parameterType="CostEntity" >
+    insert into cost (id, cost_detail,cost_budget,cost_amount,
+      cost_user_id, cost_user_name,cost_phone, cost_time,
+      description, status, cost_type, 
+      reason, create_time, create_by, 
+      update_time, update_by)
+    values (#{id,jdbcType=BIGINT}, #{costDetail.code,jdbcType=VARCHAR}, #{costBudget,jdbcType=DECIMAL}, #{costAmount,jdbcType=DECIMAL},
+      #{costUserId,jdbcType=VARCHAR}, #{costUserName,jdbcType=VARCHAR}, #{costPhone,jdbcType=VARCHAR}, #{costTime,jdbcType=TIMESTAMP},
+      #{description,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{costType,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <!-- 修改记录 -->
+  <update id="updateByPrimaryKeySelective" parameterType="CostEntity" >
+    update cost
+    <set >
+      <if test="costDetail != null" >
+        cost_detail = #{costDetail.code,jdbcType=VARCHAR},
+      </if>
+      <if test="costBudget != null" >
+        cost_budget = #{costBudget,jdbcType=DECIMAL},
+      </if>
+      <if test="costAmount != null" >
+        cost_amount = #{costAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="costUserId != null" >
+        cost_user_id = #{costUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="costUserName != null" >
+        cost_user_name = #{costUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="costPhone != null" >
+        cost_phone = #{costPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="costTime != null" >
+        cost_time = #{costTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="costType != null" >
+        cost_type = #{costType,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <sql id="Base_Where_Condition">
+    <if test="condition != null">
+      <if test="condition.id!=null and condition.id!=''">
+        AND id = #{condition.id}
+      </if>
+      <if test="condition.costDetail!=null and condition.costDetail!=''">
+        AND cost_detail = #{condition.costDetail.code}
+      </if>
+      <if test="condition.status!=null and condition.status!=''">
+        AND status = #{condition.status}
+      </if>
+      <if test="condition.costType!=null and condition.costType!=''">
+        AND cost_Type = #{condition.costType}
+      </if>
+      <if test="condition.createBy!=null and condition.createBy!=''">
+        AND create_by = #{condition.createBy}
+      </if>
+      <if test="condition.costTimeStart!=null and condition.costTimeStart!=''">
+        AND cost_time &gt;= #{condition.costTimeStart}
+      </if>
+      <if test="condition.costTimeEnd!=null and condition.costTimeEnd!=''">
+        AND cost_time &lt;= #{condition.costTimeEnd}
+      </if>
+    </if>
+  </sql>
+  <!-- 分页查询 消费记录 -->
+  <select id="queryCostList" parameterType="BaseQueryRequest" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM cost
+    <where>
+      <include refid="Base_Where_Condition"/>
+    </where>
+    ORDER BY cost_time DESC
+    <if test="pagination!=null">
+      limit #{pagination.stratRecodes}, #{pagination.rows}
+    </if>
+  </select>
+  <select id="countCost" parameterType="BaseQueryRequest" resultType="int">
+    SELECT COUNT(1)
+    FROM cost
+    <where>
+      <include refid="Base_Where_Condition"/>
+    </where>
+  </select>
+
+  <!--条件统计消费总额-->
+  <select id="totalCostAmount" parameterType="BaseQueryRequest" resultType="java.math.BigDecimal">
+    SELECT SUM(cost_amount) FROM cost
+    <where>
+      <include refid="Base_Where_Condition"/>
+    </where>
+  </select>
+  <!--按月统计消费-->
+  <select id="countCostAmountMouth" parameterType="BaseQueryRequest"
+          resultType="AmountMouthVO">
+    SELECT SUM(cost_amount) mouthCost, DATE_FORMAT(cost_time,'%Y%m') mouth
+    FROM cost
+    <where>
+      <include refid="Base_Where_Condition"/>
+    </where>
+    GROUP BY mouth ORDER BY mouth
+  </select>
+
+  <!--消费分布统计消费-->
+  <select id="countCostDiagram" parameterType="BaseQueryRequest"
+          resultType="CostDiagramVO">
+    SELECT cost_detail costDetailStr, SUM(cost_amount) totalAmount
+    FROM cost
+    <where>
+      <include refid="Base_Where_Condition"/>
+    </where>
+    GROUP BY costDetailStr
+  </select>
+
+</mapper>
